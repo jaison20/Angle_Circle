@@ -17,8 +17,8 @@ public class triangle extends Application{
 	public void start(Stage stage) throws Exception {
 
 		Pane pane=new Pane();
-		   Group designer = movingTriangle();
-		    designer.setLayoutX(200);
+		   Group designer = movingTriangle();	//"movingTriangle()" is the group holding all the moving parts
+		    designer.setLayoutX(200);		//"designer" is the group that can be added to the pane
 		    designer.setLayoutY(200);		
 		
 		pane.getChildren().addAll(designer);
@@ -73,7 +73,6 @@ public class triangle extends Application{
 	        c3.setStroke(Color.BLACK);
 	            
 	    //==============making lines from center of one circle to center of the next circle============//
-	    //line1 = new Line(c1.getCenterX(), c1.getCenterY(), c2.getCenterX(), c2.getCenterY());
 	   		line1 = new Line();
 	   		line1.startXProperty().bind(c1.centerXProperty());
 	   		line1.startYProperty().bind(c1.centerYProperty());		
@@ -93,9 +92,15 @@ public class triangle extends Application{
 	   		line3.endYProperty().bind(c1.centerYProperty());
 	    		
 	 //===========================calculating length of each line using the center circle points======//
-	  		a = Math.sqrt((c2.getCenterX() - c1.getCenterX()) * (c2.getCenterX() - c1.getCenterX()) + (c2.getCenterY() - c1.getCenterY()) * (c2.getCenterY() - c1.getCenterY()));
-	   		b = Math.sqrt((c3.getCenterX() - c2.getCenterX()) * (c3.getCenterX() - c2.getCenterX()) + (c3.getCenterY() - c2.getCenterY()) * (c3.getCenterY() - c2.getCenterY()));
-	  		c = Math.sqrt((c1.getCenterX() - c3.getCenterX()) * (c1.getCenterX() - c3.getCenterX()) + (c1.getCenterY() - c3.getCenterY()) * (c1.getCenterY() - c3.getCenterY()));
+	  		a = Math.sqrt((c2.getCenterX() - c1.getCenterX()) * 
+				      (c2.getCenterX() - c1.getCenterX()) + (c2.getCenterY() - c1.getCenterY()) * 
+				      (c2.getCenterY() - c1.getCenterY()));
+	   		b = Math.sqrt((c3.getCenterX() - c2.getCenterX()) * 
+				      (c3.getCenterX() - c2.getCenterX()) + (c3.getCenterY() - c2.getCenterY()) * 
+				      (c3.getCenterY() - c2.getCenterY()));
+	  		c = Math.sqrt((c1.getCenterX() - c3.getCenterX()) * 
+				      (c1.getCenterX() - c3.getCenterX()) + (c1.getCenterY() - c3.getCenterY()) * 
+				      (c1.getCenterY() - c3.getCenterY()));
 
 	    	double pi = 3.14159;
 	  		DecimalFormat decform = new DecimalFormat("0.00");		//use to output a double in #.## style
@@ -109,20 +114,28 @@ public class triangle extends Application{
 	    	txt1 = new Text(point1x, point1y, decform.format(ang1) + ":1");
 	    	txt2 = new Text(point2x, point2y, decform.format(ang2) + ":2");
 	    	txt3 = new Text(point3x, point3y, decform.format(ang3) + ":3" );
-	    				
+	//===============================movement================================================//
+		//enabling c1 to be clicked and dragged
 	        c1.setOnMouseDragged(new EventHandler<MouseEvent>() {
 	            @Override
 	            public void handle(MouseEvent event) {
 	                xMouse = event.getX();
 	                yMouse = event.getY();
+			    //reinitialize c1 coordinate, length of lines, angle of lines, text
 	                c1.setCenterX(xMouse);
 	                c1.setCenterY(yMouse);
-		   			a = Math.sqrt((c2.getCenterX() - c1.getCenterX()) * (c2.getCenterX() - c1.getCenterX()) + (c2.getCenterY() - c1.getCenterY()) * (c2.getCenterY() - c1.getCenterY()));
-		    		b = Math.sqrt((c3.getCenterX() - c2.getCenterX()) * (c3.getCenterX() - c2.getCenterX()) + (c3.getCenterY() - c2.getCenterY()) * (c3.getCenterY() - c2.getCenterY()));
-		   			c = Math.sqrt((c1.getCenterX() - c3.getCenterX()) * (c1.getCenterX() - c3.getCenterX()) + (c1.getCenterY() - c3.getCenterY()) * (c1.getCenterY() - c3.getCenterY()));
+		   		a = Math.sqrt((c2.getCenterX() - c1.getCenterX()) * 
+					      (c2.getCenterX() - c1.getCenterX()) + (c2.getCenterY() - c1.getCenterY()) * 
+					      (c2.getCenterY() - c1.getCenterY()));
+		    		b = Math.sqrt((c3.getCenterX() - c2.getCenterX()) * 
+					      (c3.getCenterX() - c2.getCenterX()) + (c3.getCenterY() - c2.getCenterY()) * 
+					      (c3.getCenterY() - c2.getCenterY()));
+		   		c = Math.sqrt((c1.getCenterX() - c3.getCenterX()) * 
+					      (c1.getCenterX() - c3.getCenterX()) + (c1.getCenterY() - c3.getCenterY()) * 
+					      (c1.getCenterY() - c3.getCenterY()));
 	    			ang1 = Math.acos((b * b - a * a - c * c) / (-2 * a * c)) * (180/pi);
-	   				ang2 = Math.acos((c * c - b * b - a * a) / (-2 * a * b)) * (180/pi);
-	   				ang3 = Math.acos((a * a - b * b - c * c) / (-2 * b * c)) * (180/pi);
+	   			ang2 = Math.acos((c * c - b * b - a * a) / (-2 * a * b)) * (180/pi);
+	   			ang3 = Math.acos((a * a - b * b - c * c) / (-2 * b * c)) * (180/pi);
                     txt1.setText(decform.format(ang1) + ":1");
                     txt1.setX(xMouse);
 	                txt1.setY(yMouse);
@@ -136,11 +149,18 @@ public class triangle extends Application{
 	            public void handle(MouseEvent event) {
 	                xMouse = event.getX();
 	                yMouse = event.getY();
+			     //reinitialize c2 coordinate, length of lines, angle of lines, text
 	                c2.setCenterX(xMouse);
 	                c2.setCenterY(yMouse);
-	                a = Math.sqrt((c2.getCenterX() - c1.getCenterX()) * (c2.getCenterX() - c1.getCenterX()) + (c2.getCenterY() - c1.getCenterY()) * (c2.getCenterY() - c1.getCenterY()));
-	                b = Math.sqrt((c3.getCenterX() - c2.getCenterX()) * (c3.getCenterX() - c2.getCenterX()) + (c3.getCenterY() - c2.getCenterY()) * (c3.getCenterY() - c2.getCenterY()));
-		    		c = Math.sqrt((c1.getCenterX() - c3.getCenterX()) * (c1.getCenterX() - c3.getCenterX()) + (c1.getCenterY() - c3.getCenterY()) * (c1.getCenterY() - c3.getCenterY()));
+	                a = Math.sqrt((c2.getCenterX() - c1.getCenterX()) * 
+				      (c2.getCenterX() - c1.getCenterX()) + (c2.getCenterY() - c1.getCenterY()) * 
+				      (c2.getCenterY() - c1.getCenterY()));
+	                b = Math.sqrt((c3.getCenterX() - c2.getCenterX()) * 
+				      (c3.getCenterX() - c2.getCenterX()) + (c3.getCenterY() - c2.getCenterY()) * 
+				      (c3.getCenterY() - c2.getCenterY()));
+		    	c = Math.sqrt((c1.getCenterX() - c3.getCenterX()) * 
+				      (c1.getCenterX() - c3.getCenterX()) + (c1.getCenterY() - c3.getCenterY()) * 
+				      (c1.getCenterY() - c3.getCenterY()));
 	    			ang1 = Math.acos((b * b - a * a - c * c) / (-2 * a * c)) * (180/pi);
 	    			ang2 = Math.acos((c * c - b * b - a * a) / (-2 * a * b)) * (180/pi);
 	    			ang3 = Math.acos((a * a - b * b - c * c) / (-2 * b * c)) * (180/pi);
@@ -157,11 +177,18 @@ public class triangle extends Application{
 	             public void handle(MouseEvent event) {
 	            	xMouse = event.getX();
 	                yMouse = event.getY();
+			      //reinitialize c3 coordinate, length of lines, angle of lines, text
 	                c3.setCenterX(xMouse);
 	                c3.setCenterY(yMouse);
-	                a = Math.sqrt((c2.getCenterX() - c1.getCenterX()) * (c2.getCenterX() - c1.getCenterX()) + (c2.getCenterY() - c1.getCenterY()) * (c2.getCenterY() - c1.getCenterY()));
-		    		b = Math.sqrt((c3.getCenterX() - c2.getCenterX()) * (c3.getCenterX() - c2.getCenterX()) + (c3.getCenterY() - c2.getCenterY()) * (c3.getCenterY() - c2.getCenterY()));
-		    		c = Math.sqrt((c1.getCenterX() - c3.getCenterX()) * (c1.getCenterX() - c3.getCenterX()) + (c1.getCenterY() - c3.getCenterY()) * (c1.getCenterY() - c3.getCenterY()));
+	                	a = Math.sqrt((c2.getCenterX() - c1.getCenterX()) * 
+					      (c2.getCenterX() - c1.getCenterX()) + (c2.getCenterY() - c1.getCenterY()) * 
+					      (c2.getCenterY() - c1.getCenterY()));
+		    		b = Math.sqrt((c3.getCenterX() - c2.getCenterX()) * 
+					      (c3.getCenterX() - c2.getCenterX()) + (c3.getCenterY() - c2.getCenterY()) * 
+					      (c3.getCenterY() - c2.getCenterY()));
+		    		c = Math.sqrt((c1.getCenterX() - c3.getCenterX()) * 
+					      (c1.getCenterX() - c3.getCenterX()) + (c1.getCenterY() - c3.getCenterY()) * 
+					      (c1.getCenterY() - c3.getCenterY()));
 	    			ang1 = Math.acos((b * b - a * a - c * c) / (-2 * a * c)) * (180/pi);
 	   				ang2 = Math.acos((c * c - b * b - a * a) / (-2 * a * b)) * (180/pi);
 	   				ang3 = Math.acos((a * a - b * b - c * c) / (-2 * b * c)) * (180/pi);
@@ -172,8 +199,8 @@ public class triangle extends Application{
 	                txt3.setY(yMouse);
 	                }
 	            });
-	            
-			return new Group(line1, line2, line3, c1, c2, c3, txt1, txt2, txt3, cir1);
+	            	//return all the moving parts so they are added to the scene
+			return new Group(line1, line2, line3, c1, c2, c3, txt1, txt2, txt3, cir1);	
 	        }
 
 	public static void main(String[] a) {
