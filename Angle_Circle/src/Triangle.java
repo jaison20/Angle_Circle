@@ -1,7 +1,6 @@
 import java.text.DecimalFormat;
 import java.util.Comparator;
 import java.util.stream.Stream;
-
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
@@ -254,7 +253,7 @@ public class triangle extends Application{
 				(y - paneHeight / 2) * (y - paneHeight / 2))-bigCircleRadius) <=5);
 	}
 	
-
+// Launches the program///
 	public static void main(String[] a) {
 		launch(a);
 	}
